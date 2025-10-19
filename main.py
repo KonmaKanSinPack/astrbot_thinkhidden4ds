@@ -30,7 +30,7 @@ class FilterthinktagsPlugin(Star):
                 # 根据标签列表动态过滤标签
                 if tags_to_filter:
                     tag_group = '|'.join(re.escape(tag) for tag in tags_to_filter)
-                    pattern = rf'<{tag_group}>.*?</\1>\s*<//{tag_group}>'
+                    pattern = rf'<{tag_group}>[\s\S]*?</{tag_group}>'
                     new_text = re.sub(pattern, '', new_text, flags=re.DOTALL)
 
                 # 过滤无标签的、可能跨行的文本块
