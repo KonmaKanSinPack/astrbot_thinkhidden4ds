@@ -3,7 +3,7 @@ from astrbot.api import AstrBotConfig
 from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.message_components import Plain
 from astrbot.api.star import Context, Star, register
-
+from astrbot.api import logger
 
 @register("astrbot_plugin_thinktags", "长安某", "过滤标签和文本", "1.4.1")
 class FilterthinktagsPlugin(Star):
@@ -28,17 +28,11 @@ class FilterthinktagsPlugin(Star):
                 new_text = component.text
 
                 # 根据标签列表动态过滤标签
-                if tags_to_filter:
-                    tag_group = '|'.join(re.escape(tag) for tag in tags_to_filter)
-                    pattern = rf'<think>[\s\S]*?</think>'
-                    new_text = re.sub(pattern, '', new_text, flags=re.DOTALL)
-
-                # 过滤无标签的、可能跨行的文本块
-                if prefixes_to_filter:
-                    for prefix in prefixes_to_filter:
-                        pattern = rf'^{re.escape(prefix)}.*?(\n\n|\Z)'
-                        # 使用 re.DOTALL (让.匹配换行符) 和 re.MULTILINE (让^匹配每行开头)
-                        new_text = re.sub(pattern, '', new_text, flags=re.DOTALL | re.MULTILINE)
+                # if tags_to_filter:
+                    # tag_group = '|'.join(re.escape(tag) for tag in tags_to_filter)
+                pattern = rf'<think>[\s\S]*?</think>'
+                new_text = re.sub(pattern, '', new_text, flags=re.DOTALL)
+                logger.info(f"匹配的文本：{new_text}")
 
                 # 清理文本两端的空白字符
                 stripped_text = new_text.strip()
