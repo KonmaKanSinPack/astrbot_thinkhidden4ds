@@ -26,7 +26,7 @@ class FilterthinktagsPlugin(Star):
             # 只处理纯文本消息段
             if isinstance(component, Plain):
                 new_text = component.text
-
+                logger.info(f"原始文本：{new_text}")
                 # 根据标签列表动态过滤标签
                 # if tags_to_filter:
                     # tag_group = '|'.join(re.escape(tag) for tag in tags_to_filter)
